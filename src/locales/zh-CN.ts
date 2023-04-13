@@ -114,6 +114,9 @@ export default {
     analysis: '分析页',
     workplace: '工作台',
     guide: '引导',
+    classification: '植物幼苗分类',
+    detection: '害虫检测',
+    segmentation: '水稻表型分割',
     component: '组件',
     icon: '图标',
     echart: '图表',
@@ -270,6 +273,15 @@ export default {
     start: '开始',
     message:
       '引导页对于一些第一次进入项目的人很有用，你可以简单介绍下项目的功能。引导页基于 intro.js'
+  },
+  ClassificationDemo: {
+    classification: '植物幼苗分类'
+  },
+  DetectionDemo: {
+    detection: '害虫检测'
+  },
+  SegmentationDemo: {
+    segmentation: '水稻表型分割'
   },
   iconDemo: {
     icon: '图标',

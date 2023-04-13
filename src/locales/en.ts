@@ -114,6 +114,9 @@ export default {
     analysis: 'Analysis',
     workplace: 'Workplace',
     guide: 'Guide',
+    classification: 'Seedling classification',
+    detection: 'Pest detection',
+    segmentation: 'Rice phenotype segmentation',
     component: 'Component',
     icon: 'Icon',
     echart: 'Echart',
@@ -271,6 +274,15 @@ export default {
     start: 'Start',
     message:
       'The guide page is very useful for some people who enter the project for the first time. You can briefly introduce the functions of the project. The boot page is based on intro js'
+  },
+  ClassificationDemo: {
+    classification: 'Seedling classification'
+  },
+  DetectionDemo: {
+    detection: 'Pest detection'
+  },
+  SegmentationDemo: {
+    segmentation: 'Rice phenotype segmentation'
   },
   iconDemo: {
     icon: 'Icon',

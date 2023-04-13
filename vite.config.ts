@@ -100,17 +100,38 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       ]
     },
     build: {
+      sourcemap: false,
       minify: 'terser',
-      outDir: env.VITE_OUT_DIR || 'dist',
-      sourcemap: env.VITE_SOURCEMAP === 'true' ? 'inline' : false,
-      // brotliSize: false,
+      chunkSizeWarningLimit: 1500,
       terserOptions: {
         compress: {
-          drop_debugger: env.VITE_DROP_DEBUGGER === 'true',
-          drop_console: env.VITE_DROP_CONSOLE === 'true'
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id
+                  .toString()
+                  .split('node_modules/')[1]
+                  .split('/')[0]
+                  .toString();
+            }
+          },
+          chunkFileNames: (chunkInfo) => {
+            const facadeModuleId = chunkInfo.facadeModuleId
+                ? chunkInfo.facadeModuleId.split('/')
+                : [];
+            const fileName =
+                facadeModuleId[facadeModuleId.length - 2] || '[name]';
+            return `js/${fileName}/[name].[hash].js`;
+          }
         }
       }
-    },
+    }
+    ,
     server: {
       port: 4000,
       proxy: {
