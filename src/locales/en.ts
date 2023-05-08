@@ -114,8 +114,8 @@ export default {
     analysis: 'Analysis',
     workplace: 'Workplace',
     guide: 'Guide',
-    classification: 'Seedling classification',
-    detection: 'Pest detection',
+    textDetection: 'Text Detection',
+    imgDetection: 'Image Detection',
     segmentation: 'Rice phenotype segmentation',
     component: 'Component',
     icon: 'Icon',
@@ -278,11 +278,16 @@ export default {
   ClassificationDemo: {
     classification: 'Seedling classification'
   },
-  DetectionDemo: {
-    detection: 'Pest detection'
+  ImgDetection: {
+    title: 'Image Detection',
+    textPlaceholder: 'Please select an image',
+    submit: 'submit'
   },
-  SegmentationDemo: {
-    segmentation: 'Rice phenotype segmentation'
+  TextDetection: {
+    title: 'Text Detection',
+    textPlaceholder: 'Please enter the text to be tested',
+    label: 'Text',
+    submit: 'submit'
   },
   iconDemo: {
     icon: 'Icon',

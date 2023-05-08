@@ -10,7 +10,7 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/classification/index',
+    redirect: '/text-detection/index',
     name: 'Root',
     meta: {
       hidden: true
@@ -57,51 +57,36 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
 
 export const asyncRouterMap: AppRouteRecordRaw[] = [
   {
-    path: '/classification',
+    path: '/text-detection',
     component: Layout,
-    name: 'Classification',
+    name: 'TextDetection',
+    redirect: '/text-detection/index',
     meta: {},
     children: [
       {
         path: 'index',
-        component: () => import('@/views/Classification/Classification.vue'),
-        name: 'ClassificationDemo',
+        component: () => import('@/views/TextDetection/TextDetection.vue'),
+        name: 'TextDetection',
         meta: {
-          title: t('router.classification'),
+          title: t('router.textDetection'),
           icon: 'cib:telegram-plane'
         }
       }
     ]
   },
   {
-    path: '/detection',
+    path: '/img-detection',
     component: Layout,
-    name: 'Detection',
+    name: 'ImgDetection',
+    redirect: '/img-detection/index',
     meta: {},
     children: [
       {
         path: 'index',
-        component: () => import('@/views/Detection/Detection.vue'),
-        name: 'DetectionDemo',
+        component: () => import('@/views/ImgDetection/ImgDetection.vue'),
+        name: 'ImgDetection',
         meta: {
-          title: t('router.detection'),
-          icon: 'cib:telegram-plane'
-        }
-      }
-    ]
-  },
-  {
-    path: '/segmentation',
-    component: Layout,
-    name: 'Segmentation',
-    meta: {},
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/Segmentation/Segmentation.vue'),
-        name: 'SegmentationDemo',
-        meta: {
-          title: t('router.segmentation'),
+          title: t('router.imgDetection'),
           icon: 'cib:telegram-plane'
         }
       }

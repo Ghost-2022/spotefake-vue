@@ -114,8 +114,8 @@ export default {
     analysis: '分析页',
     workplace: '工作台',
     guide: '引导',
-    classification: '植物幼苗分类',
-    detection: '害虫检测',
+    textDetection: '文本检测',
+    imgDetection: '图片检测',
     segmentation: '水稻表型分割',
     component: '组件',
     icon: '图标',
@@ -277,11 +277,16 @@ export default {
   ClassificationDemo: {
     classification: '植物幼苗分类'
   },
-  DetectionDemo: {
-    detection: '害虫检测'
+  ImgDetection: {
+    title: '图片检测',
+    textPlaceholder: '请选择图片',
+    submit: '提交'
   },
-  SegmentationDemo: {
-    segmentation: '水稻表型分割'
+  TextDetection: {
+    title: '文本检测',
+    textPlaceholder: '请输入待检测文本',
+    label: '文本',
+    submit: '提交'
   },
   iconDemo: {
     icon: '图标',
