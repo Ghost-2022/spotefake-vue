@@ -5,7 +5,7 @@ NODE_ENV=production
 VITE_API_BASEPATH=pro
 
 # 打包路径
-VITE_BASE_PATH=/
+VITE_BASE_PATH=/static
 
 # 是否删除debugger
 VITE_DROP_DEBUGGER=true
@@ -20,7 +20,7 @@ VITE_SOURCEMAP=false
 VITE_OUT_DIR=dist-pro
 
 # 标题
-VITE_APP_TITLE=基于计算机视觉的农业辅助系统
+VITE_APP_TITLE=谣言检测系统
 
 
 VITE_BASE_URL = /

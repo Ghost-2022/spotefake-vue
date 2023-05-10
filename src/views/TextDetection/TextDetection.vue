@@ -4,17 +4,18 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useValidator } from '@/hooks/web/useValidator'
 import { FormSchema } from '@/types/form'
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage, ElUpload, ElIcon } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
 import { Form } from '@/components/Form'
 import { TextType } from '@/api/form/types'
 import { textDetectionApi } from '@/api/form/index'
+import { Plus } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
 const { required } = useValidator()
 const loading = ref(false)
-const result = ref('34523634')
+const result = ref('')
 const schema = reactive<FormSchema[]>([
   {
     field: 'text',
@@ -25,15 +26,33 @@ const schema = reactive<FormSchema[]>([
     componentProps: {
       placeholder: t('TextDetection.textPlaceholder')
     }
-  },
-  {
-    field: 'submit',
-    colProps: {
-      span: 24
-    }
   }
 ])
+const imageUrl = ref('')
+const baseUrl = import.meta.env.VITE_BASE_URL
 
+const uploadUrl = '/api/upload-file'
+
+const uploadError = (response: any, uploadFile: UploadFile, uploadFiles: any) => {
+  ElMessage({
+    message: '上传失败！',
+    type: 'error'
+  })
+}
+const uploadSuccess = (response: any, uploadFile: UploadFile, uploadFiles: any) => {
+  if (response.code === '0000') {
+    ElMessage({
+      message: '上传成功！',
+      type: 'success'
+    })
+    imageUrl.value = response.data
+  } else {
+    ElMessage({
+      message: response.message,
+      type: 'error'
+    })
+  }
+}
 const rules = {
   text: [required()]
 }
@@ -45,8 +64,8 @@ const submit = async () => {
     if (isValid) {
       loading.value = true
       const { getFormData } = methods
-      const formData = await getFormData<TextType>()
-
+      let formData = await getFormData<TextType>()
+      formData.img = imageUrl.value
       try {
         loading.value = true
         const res = await textDetectionApi(formData)
@@ -68,28 +87,39 @@ const submit = async () => {
 
 <template>
   <ContentWrap :title="t('TextDetection.title')" class="ac_coupon-wrap">
-    <div class="ac_coupon-pic">
-      <div class="content shadow">
-        <Form
-          :schema="schema"
-          :rules="rules"
-          label-position="top"
-          hide-required-asterisk
-          size="large"
-          class="dark:(border-1 border-[var(--el-border-color)] border-solid)"
-          @register="register"
-          labelWidth="200px"
-        >
-          <template #submit>
-            <ElButton :loading="loading" type="primary" class="w-[100%]" @click="submit">
-              {{ t('TextDetection.submit') }}
-            </ElButton>
-          </template>
-        </Form>
-        <div class="result">
-          <span class="title">结果: </span>
-          <span class="content">{{ result }}</span>
+    <div class="ac_coupon-pic shadow">
+      <div class="pic-content">
+        <div class="pic shadow center">
+          <ElUpload
+            :action="uploadUrl"
+            :on-error="uploadError"
+            :on-success="uploadSuccess"
+            :show-file-list="false"
+          >
+            <img v-if="imageUrl" :src="imageUrl" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </ElUpload>
         </div>
+        <div class="pic shadow center">
+          <Form
+            :schema="schema"
+            :rules="rules"
+            label-position="top"
+            hide-required-asterisk
+            size="large"
+            class="dark:(border-1 border-[var(--el-border-color)] border-solid)"
+            @register="register"
+            labelWidth="200px"
+          />
+        </div>
+      </div>
+      <div class="action center">
+        <ElButton :loading="loading" type="primary" @click="submit">
+          {{ t('TextDetection.submit') }}
+        </ElButton>
+      </div>
+      <div class="action center">
+        <span v-if="result" style="margin: 20px">结果：{{ result }}</span>
       </div>
     </div>
   </ContentWrap>
@@ -104,14 +134,7 @@ const submit = async () => {
 .center {
   display: flex;
   align-items: center;
-}
-
-.result {
-  width: 314px;
-
-  .title {
-    font-size: x-large;
-  }
+  justify-content: center;
 }
 
 .ac_coupon-wrap {
@@ -120,16 +143,45 @@ const submit = async () => {
   position: relative;
   .ac_coupon-pic {
     width: 75%;
-    height: 450px;
+    height: 600px;
     margin: auto;
 
-    .content {
+    .pic-content {
       width: 100%;
-      height: 100%;
+      height: 450px;
       display: flex;
       justify-content: space-around;
-      padding-top: 20px;
+      .pic {
+        margin: 30px;
+        width: 400px;
+        height: 380px;
+      }
+    }
+
+    .result-content {
+      margin-top: 20px;
+      width: 100%;
+      height: 500px;
+
+      .action {
+        height: 80px;
+      }
     }
   }
+}
+.el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
 }
 </style>

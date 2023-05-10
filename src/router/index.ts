@@ -73,24 +73,6 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
         }
       }
     ]
-  },
-  {
-    path: '/img-detection',
-    component: Layout,
-    name: 'ImgDetection',
-    redirect: '/img-detection/index',
-    meta: {},
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/ImgDetection/ImgDetection.vue'),
-        name: 'ImgDetection',
-        meta: {
-          title: t('router.imgDetection'),
-          icon: 'cib:telegram-plane'
-        }
-      }
-    ]
   }
 ]
 
