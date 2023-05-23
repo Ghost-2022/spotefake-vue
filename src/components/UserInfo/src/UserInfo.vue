@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElMessageBox } from 'element-plus'
 import { useI18n } from '@/hooks/web/useI18n'
+import { ref } from 'vue'
 import { useCache } from '@/hooks/web/useCache'
+import { useAppStore } from '@/store/modules/app'
 import { resetRouter } from '@/router'
 import { useRouter } from 'vue-router'
 import { loginOutApi } from '@/api/login'
 import { useDesign } from '@/hooks/web/useDesign'
 import { useTagsViewStore } from '@/store/modules/tagsView'
+
+const appStore = useAppStore()
 
 const tagsViewStore = useTagsViewStore()
 
@@ -38,6 +42,8 @@ const loginOut = () => {
 const toDocument = () => {
   window.open('https://element-plus-admin-doc.cn/')
 }
+const userInfo = wsCache.get(appStore.getUserInfo)
+const usename = ref(userInfo.username)
 </script>
 
 <template>
@@ -48,7 +54,9 @@ const toDocument = () => {
         alt=""
         class="w-[calc(var(--logo-height)-25px)] rounded-[50%]"
       />
-      <span class="<lg:hidden text-14px pl-[5px] text-[var(--top-header-text-color)]">Archer</span>
+      <span class="<lg:hidden text-14px pl-[5px] text-[var(--top-header-text-color)]">{{
+        usename
+      }}</span>
     </div>
     <template #dropdown>
       <ElDropdownMenu>

@@ -4,7 +4,7 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useValidator } from '@/hooks/web/useValidator'
 import { FormSchema } from '@/types/form'
-import { ElButton, ElMessage, ElUpload, ElIcon } from 'element-plus'
+import { ElButton, ElMessage, ElUpload, ElIcon, ElProgress } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
 import { Form } from '@/components/Form'
 import { TextType } from '@/api/form/types'
@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 const { required } = useValidator()
 const loading = ref(false)
-const result = ref('')
+const result = ref(0.0)
 const schema = reactive<FormSchema[]>([
   {
     field: 'text',
@@ -70,7 +70,7 @@ const submit = async () => {
         loading.value = true
         const res = await textDetectionApi(formData)
         if (res.code == '0000') {
-          result.value = res.data
+          result.value = parseFloat((parseFloat(res.data) * 100).toFixed(2))
         } else {
           ElMessage({
             message: res.message,
@@ -118,8 +118,8 @@ const submit = async () => {
           {{ t('TextDetection.submit') }}
         </ElButton>
       </div>
-      <div class="action center">
-        <span v-if="result" style="margin: 20px">结果：{{ result }}</span>
+      <div v-if="result" class="action center">
+        <ElProgress type="circle" :percentage="result" />
       </div>
     </div>
   </ContentWrap>
@@ -143,7 +143,7 @@ const submit = async () => {
   position: relative;
   .ac_coupon-pic {
     width: 75%;
-    height: 600px;
+    height: 800px;
     margin: auto;
 
     .pic-content {
@@ -162,12 +162,12 @@ const submit = async () => {
       margin-top: 20px;
       width: 100%;
       height: 500px;
-
-      .action {
-        height: 80px;
-      }
     }
   }
+}
+.action {
+  height: 80px;
+  margin-top: 20px;
 }
 .el-upload {
   border: 1px dashed var(--el-border-color);
